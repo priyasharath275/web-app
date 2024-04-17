@@ -1,0 +1,36 @@
+.weather-table {
+    border-collapse: collapse;
+    display: inline-block; /* Set display property to inline-block */
+    margin-bottom: 20px; /* Add some margin for better spacing between tables */
+  }
+  
+  .weather-table th,
+  .weather-table td {
+    border: 1px solid #000000;
+    text-align: center;
+    padding: 10px;
+  }
+  
+  .weather-table th {
+    background-color: #f2f2f2;
+  }
+  
+  .weather-table td:first-child {
+    width: 50%;
+  }
+  
+  .weather-table .inner-table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  .weather-table .inner-table td {
+    border: none;
+    padding: 5px;
+  }
+  
+  .weather-table .inner-table td:first-child {
+    width: 50%;
+    border-right: 1px solid #000000;
+  }
+  
