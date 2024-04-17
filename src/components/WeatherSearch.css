@@ -2,6 +2,7 @@
     border-collapse: collapse;
     display: inline-block; /* Set display property to inline-block */
     margin-bottom: 20px; /* Add some margin for better spacing between tables */
+    padding: 10px;
   }
   
   .weather-table th,

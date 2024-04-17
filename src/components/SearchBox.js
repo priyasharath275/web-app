@@ -12,14 +12,17 @@ const WeatherSearch = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await fetch(
-        `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${API_KEY}`
-      );
+      const response = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${API_KEY}`);
       if (!response.ok) {
-        throw new Error("City not found");
+        throw new Error('City not found');
       }
       const data = await response.json();
-      setWeatherData(data);
+      // Format date to DD/MM/YYYY
+      const formattedData = data.list.map(item => ({
+        ...item,
+        dt_txt: new Date(item.dt * 1000).toLocaleDateString('en-GB') // Assuming en-GB locale for DD/MM/YYYY format
+      }));
+      setWeatherData(formattedData);
     } catch (error) {
       console.error(error);
     } finally {
@@ -27,8 +30,9 @@ const WeatherSearch = () => {
     }
   };
 
+
   return (
-    <div >
+    <div style={{display:"flex" ,flexDirection:"column"}} >
       <form onSubmit={handleSubmit} style={{display:"flex" ,flexDirection:"row" ,gap:"10px"}}>
         <input
           type="text"
@@ -43,11 +47,11 @@ const WeatherSearch = () => {
       ) : weatherData ? (
         <div>
           <h2>Weather forecast for {city}</h2>
-          {weatherData.list.map((val, index) => (
+          {weatherData.map((val, index) => (
             <table key={index} className="weather-table">
               <thead>
                 <tr>
-                  <th colSpan="2">Date: {val.dt_txt}</th>
+                  <th colSpan="2" style={{backgroundColor:"red"}}>Date: {val.dt_txt}</th>
                 </tr>
               </thead>
               <tbody>
@@ -55,8 +59,8 @@ const WeatherSearch = () => {
                   <th colSpan="2">Temperature</th>
                 </tr>
                 <tr>
-                  <td>Min</td>
-                  <td>Max</td>
+                  <th>Min</th>
+                  <th>Max</th>
                 </tr>
                 <tr>
                   <td>{val.main.temp_min}</td>
