@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import "./WeatherSearch.css"; // Import CSS file for styling
+import React, { useState, useMemo } from "react";
+import "./WeatherSearch.css"; 
 
 const WeatherSearch = () => {
   const [city, setCity] = useState("");
@@ -30,6 +30,16 @@ const WeatherSearch = () => {
     }
   };
 
+  const filteredWeatherData = useMemo(() => {
+    if (!weatherData) return null;
+    const currentDate = new Date();
+    const nextFiveDays = new Array(5).fill().map((_, index) => {
+      const date = new Date(currentDate);
+      date.setDate(currentDate.getDate() + index);
+      return date.toLocaleDateString('en-GB');
+    });
+    return weatherData.filter(item => nextFiveDays.includes(item.dt_txt));
+  }, [weatherData]);
 
   return (
     <div style={{display:"flex" ,flexDirection:"column"}} >
@@ -44,10 +54,10 @@ const WeatherSearch = () => {
       </form>
       {loading ? (
         <p>Loading...</p>
-      ) : weatherData ? (
+      ) : filteredWeatherData ? (
         <div>
           <h2>Weather forecast for {city}</h2>
-          {weatherData.map((val, index) => (
+          {filteredWeatherData.map((val, index) => (
             <table key={index} className="weather-table">
               <thead>
                 <tr>
